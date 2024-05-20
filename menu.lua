@@ -29,7 +29,7 @@ function menu.draw()
         if i == menu.selected then
             love.graphics.setColor(1, 0, 0)  -- Highlight selected item
         end
-        love.graphics.printf(item, 0, menu.height / 2 + (i - 1) * 40, menu.width, "center")
+        love.graphics.printf(item, 50, menu.height / 2 + (i - 1) * 40, menu.width, "left")
     end
 
     -- Reset color back to default
@@ -63,12 +63,19 @@ function menu.mousepressed(x, y, button)
     end
 end
 
+function startGame()
+    require("game") -- Load the game.lua file
+    if love.load then
+        love.load() -- Call the love.load() function from game.lua if it exists
+    end
+end
+
 function menu.activate()
     local key = menu.items[menu.selected]
     if key == "exit" then
         love.event.quit()
     elseif key == "new_game" then
-        -- Start new game logic here
+        startGame()
     elseif key == "continue" then
         -- Continue game logic here
     elseif key == "options" then
