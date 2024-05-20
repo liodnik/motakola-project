@@ -11,24 +11,29 @@ function menu.load()
     menu.font = love.graphics.newFont("assets/fonts/Belarus.otf", 32)
     love.graphics.setFont(menu.font)
 
+    -- Load the background image
+    menu.background = love.graphics.newImage("assets/images/background.jpg")
+
     -- Screen dimensions
     menu.width, menu.height = love.graphics.getDimensions()
 end
 
 function menu.draw()
-    -- Set background color
-    love.graphics.clear(0.1, 0.1, 0.1)
+    -- Draw the background image
+    love.graphics.draw(menu.background, 0, 0)
 
     -- Draw the menu items
     for i, key in ipairs(menu.items) do
         local item = localization.get_text(key)
+        love.graphics.setColor(1, 1, 1)  -- Set default color for text
         if i == menu.selected then
             love.graphics.setColor(1, 0, 0)  -- Highlight selected item
-        else
-            love.graphics.setColor(1, 1, 1)
         end
         love.graphics.printf(item, 0, menu.height / 2 + (i - 1) * 40, menu.width, "center")
     end
+
+    -- Reset color back to default
+    love.graphics.setColor(1, 1, 1)
 end
 
 function menu.keypressed(key)
