@@ -1,0 +1,1 @@
+-- This file contains the main game logic. It handles the core gameplay mechanics, such as updating game objects, handling collisions, and managing game state transitions (e.g., starting a new level, ending the game). It also contains the game loop, which is responsible for updating the game state and rendering the game world.
