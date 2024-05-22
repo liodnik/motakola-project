@@ -4,6 +4,8 @@ local menu = require("menu")
 local localization = require("localization")
 
 function love.load()
+    love.window.setTitle("Motakola main menu")
+
     -- Set default language
     localization.set_language("be")
     menu.load()

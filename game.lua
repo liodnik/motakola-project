@@ -7,11 +7,16 @@ local backgroundScroll = 0 -- Initialize background scroll
 
 -- Create player as a local variable
 local player = {
-  x = screenWidth / 2,
-  y = screenHeight - graveRoadHeight - 50, -- Place player above the grave road
+  x = 50,
+  y = screenHeight - graveRoadHeight - 50,
   width = 50,
   height = 50,
-  speed = 200
+  speed = 200,
+  isJumping = false,
+  jumpHeight = 100,
+  gravity = 400,
+  jumpVelocity = -300, -- negative because we're moving up
+  velocityY = 0 -- initial vertical velocity
 }
 
 -- Create stars table
@@ -19,7 +24,7 @@ local stars = {}
 
 -- Initialize function
 function love.load()
-  love.window.setTitle("2D Platformer")
+  love.window.setTitle("Motakola")
   love.window.setMode(screenWidth, screenHeight)
   love.graphics.setBackgroundColor(0, 0, 0)
 
@@ -50,12 +55,25 @@ function love.update(dt)
     end
   end
 
-  -- Move player horizontally
-  if love.keyboard.isDown("left") then
-    player.x = player.x - player.speed * dt
-  elseif love.keyboard.isDown("right") then
-    player.x = player.x + player.speed * dt
+  -- Handle player jumping
+  if love.keyboard.isDown("space") and not player.isJumping then
+    player.isJumping = true
+    player.velocityY = player.jumpVelocity
   end
+
+  -- Update player position and apply gravity if jumping
+  if player.isJumping then
+      player.y = player.y + player.velocityY * dt
+      player.velocityY = player.velocityY + player.gravity * dt
+
+      -- Check if player has landed
+      if player.y >= screenHeight - graveRoadHeight - player.height then
+          player.y = screenHeight - graveRoadHeight - player.height
+          player.isJumping = false
+          player.velocityY = 0
+      end
+  end
+
 end
 
 -- Draw gradient background
